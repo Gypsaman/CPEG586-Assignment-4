@@ -48,8 +48,8 @@ class Layer(object):
     """description of class"""
     numparams = 2
     epsilon = 1.0e-9
-    AdamBeta1 = 0.01
-    AdamBeta2 = 0.0001
+    AdamBeta1 = 0.9
+    AdamBeta2 = 0.999
     
     def __init__(self, neurons, inputs, activationf=ActivationType.RELU, BatchNorm = False):
 
