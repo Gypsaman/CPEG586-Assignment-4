@@ -110,8 +110,8 @@ class Layer(object):
         self.delta = Gradients[self.activationf](dA,self.activation)
         
         if self.isBatchNorm == True:
-            self.dbeta = np.sum(self.delta,axis=1)
-            self.dgamma = np.sum(self.delta*self.Shat,axis=1)
+            self.dbeta = np.sum(self.delta,axis=1).reshape((self.layerNodes,1))
+            self.dgamma = np.sum(self.delta*self.Shat,axis=1).reshape((self.layerNodes,1))
             self.deltabn = (self.delta * self.gamma)/(m*np.sqrt(self.sigma2+Layer.epsilon)) * (m-1-(self.Shat*self.Shat))
 
             self.dw = 1/m*np.dot(self.deltabn,self.prev_a.T)
@@ -149,8 +149,8 @@ class Layer(object):
         elif optimizer == LROptimizerType.ADAM:
             Adam(iternum)
         if self.isBatchNorm == True:
-            self.BNBeta = self.BNBeta - lr * self.dbeta
-            self.BNgamma = self.BNgamma - lr * self.dgamma
+            self.beta = self.beta - lr * self.dbeta
+            self.gamma = self.gamma - lr * self.dgamma
 
 
 class Model(object):
